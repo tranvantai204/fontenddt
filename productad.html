@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Sản Phẩm</title>
+    <link rel="stylesheet" href="stylee.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>IPOS CALL CENTER</h2>
+        <ul>
+            <li>Dashboard</li>
+            <li onclick="location.href='display.html'">Quản lý Tài Khoản</li>
+            <li class="active">Quản lý sản phẩm</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <h3>Dashboard / Sản phẩm / Quản lý sản phẩm</h3>
+            <button class="add-product-btn" onclick="location.href='addproduct.html'">
+                + Thêm sản phẩm
+            </button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Hình ảnh</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="productTable">
+                <!-- Dữ liệu mẫu -->
+                <tr>
+                    <td>1</td>
+                    <td>Sản phẩm A</td>
+                    <td>100,000 VND</td>
+                    <td>20</td>
+                    <td>
+                        <img src="path/to/imageA.jpg" alt="Sản phẩm A" class="product-image">
+                    </td>
+                    <td>
+                        <button class="edit-btn" onclick="redirectToUpdatePage(1)">Sửa</button>
+                        <button class="delete-btn" onclick="deleteProduct(this)">Xóa</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Sản phẩm B</td>
+                    <td>200,000 VND</td>
+                    <td>15</td>
+                    <td>
+                        <img src="path/to/imageB.jpg" alt="Sản phẩm B" class="product-image">
+                    </td>
+                    <td>
+                        <button class="edit-btn" onclick="redirectToUpdatePage(2)">Sửa</button>
+                        <button class="delete-btn" onclick="deleteProduct(this)">Xóa</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
