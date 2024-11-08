@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Sản Phẩm</title>
+    <link rel="stylesheet" href="stylee.css">
+    <style>
+        /* CSS Styles */
+        
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1,
+        h2,
+        h3 {
+            font-family: 'Roboto Mono', monospace;
+            color: #001f3f;
+        }
+        
+        .button {
+            background-color: #4a3d93;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .button-detail {
+            background-color: #2600ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .button-edit {
+            background-color: #00ff11;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .button-delete {
+            background-color: #ff0000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: #03b300;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px 0;
+        }
+        
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        img:hover {
+            transform: scale(1.05);
+        }
+        /* Modal Styles */
+        
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            /* Giới hạn chiều rộng của modal */
+            margin: auto;
+            /* Căn giữa modal */
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            /* Khoảng cách giữa các trường */
+        }
+        
+        .form-group label {
+            display: block;
+            /* Đảm bảo label nằm trên input */
+            margin-bottom: 5px;
+            /* Khoảng cách giữa label và input */
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            /* Đặt chiều rộng của input và textarea là 100% */
+            padding: 10px;
+            /* Thêm padding cho input và textarea */
+            border: 1px solid #ccc;
+            /* Đường viền cho input và textarea */
+            border-radius: 5px;
+            /* Bo tròn góc */
+            box-sizing: border-box;
+            /* Đảm bảo padding không làm tăng chiều rộng */
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            /* Cho phép thay đổi kích thước theo chiều dọc */
+            height: 100px;
+            /* Đặt chiều cao mặc định cho textarea */
+        }
+        
+        button {
+            margin-top: 10px;
+            /* Khoảng cách trên nút lưu */
+        }
+        
+        .modal {
+            max-height: 80vh;
+            /* Limit the height of the modal */
+            overflow-y: auto;
+            /* Enable vertical scrolling */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>IPOS CALL CENTER</h2>
+        <ul>
+            <li>Dashboard</li>
+            <li onclick="location.href='display.html'">Quản lý Tài Khoản</li>
+            <li class="active">Quản lý sản phẩm</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <h3>Dashboard / Sản phẩm / Quản lý sản phẩm</h3>
+            <button class="button" onclick="showAddProductModal()">+ Thêm sản phẩm</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Hình ảnh thumbnail</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="productTable">
+                <!-- Dữ liệu sản phẩm sẽ được hiển thị ở đây -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Xem Chi Tiết -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('detailModal')">&times;</span>
+            <h3>Thông Tin Chi Tiết Sản Phẩm</h3>
+            <p>Tên sản phẩm: <span id="detailProductName"></span></p>
+            <p>Mô tả: <span id="detailDescription"></span></p>
+            <p>Giá: <span id="detailPrice"></span></p>
+            <p>Số lượng: <span id="detailStock"></span></p>
+            <p>Danh mục: <span id="detailCategory"></span></p>
+            <h2>Danh Sách Nhà Cung Cấp</h2>
+            <div class="card">
+                <table id="supplierTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Nhà Cung Cấp</th>
+                            <th>Thông Tin Liên Hệ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dữ liệu nhà cung cấp sẽ được thêm vào đây -->
+                    </tbody>
+                </table>
+            </div>
+            <p>Ngày tạo: <span id="detailCreated"></span></p>
+            <p>Ngày cập nhật: <span id="detailUpdated"></span></p>
+            <h4>Hình ảnh chi tiết</h4>
+            <img src="path/to/detail_image1.jpg" alt="Detail Image 1" class="detail-image">
+            <img src="path/to/detail_image2.jpg" alt="Detail Image 2" class="detail-image">
+            <img src="path/to/detail_image3.jpg" alt="Detail Image 3" class="detail-image">
+        </div>
+    </div>
+
+    <!-- Modal Sửa Sản Phẩm -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('editModal')">&times;</span>
+            <h3>Sửa Sản Phẩm</h3>
+            <input type="hidden" id="editProductId">
+            <div class="form-group">
+                <label for="editProductName">Tên sản phẩm:</label>
+                <input type="text" id="editProductName">
+            </div>
+            <div class="form-group">
+                <label for="editDescription">Mô tả:</label>
+                <textarea id="editDescription"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editPrice">Giá:</label>
+                <input type="number" id="editPrice">
+            </div>
+            <div class="form-group">
+                <label for="editStock">Số lượng:</label>
+                <input type="number" id="editStock">
+            </div>
+            <div class="form-group">
+                <label for="editCategory">Danh mục:</label>
+                <input type="text" id="editCategory">
+            </div>
+            <h2>Danh Sách Nhà Cung Cấp</h2>
+            <div class="card">
+                <table id="supplierTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Nhà Cung Cấp</th>
+                            <th>Thông Tin Liên Hệ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dữ liệu nhà cung cấp sẽ được thêm vào đây -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <label for="editImage">Hình ảnh:</label>
+                <input type="file" id="editImage" accept="image/*">
+            </div>
+            <button onclick="saveProductChanges()">Lưu Thay Đổi</button>
+        </div>
+    </div>
+
+    <script src=" productad.js"></script>
+    <script>
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

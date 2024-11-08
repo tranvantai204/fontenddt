@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylee.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>IPOS CALL CENTER</h2>
+        <ul>
+            <li onclick="location.href='productad.html'">Quản Lý Sản Phẩm</li>
+            <li class="active">Tài khoản
+                <ul>
+                    <li class="active">Danh sách tài khoản</li>
+                    <li onclick="showAddAccountForm()">Thêm tài khoản</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <h3>Dashboard / Tài khoản / Danh sách tài khoản</h3>
+            <div class="user-info">
+                manager1@gmail.com
+                <button id="logoutButton" class="btn btn-danger">Đăng xuất</button>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm tài khoản" id="searchInput" class="form-control">
+        </div>
+
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tài khoản</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="accountTable"></tbody>
+        </table>
+
+        <!-- Form thêm tài khoản -->
+        <div id="addAccountForm" class="container mt-4" style="display: none;">
+            <h3>Thêm Tài Khoản Admin</h3>
+            <form>
+                <div class="form-group">
+                    <label for="newAccountUsername">Tên người dùng</label>
+                    <input type="text" class="form-control" id="newAccountUsername" placeholder="Nhập tên người dùng" required>
+                </div>
+                <div class="form-group">
+                    <label for="newAccountEmail">Email</label>
+                    <input type="email" class="form-control" id="newAccountEmail" placeholder="Nhập email" required>
+                </div>
+                <div class="form-group">
+                    <label for="newAccountPassword">Mật khẩu</label>
+                    <input type="password" class="form-control" id="newAccountPassword" placeholder="Nhập mật khẩu" required>
+                </div>
+                <div class="form-group">
+                    <label for="newAccountPhoneNumber">Số điện thoại</label>
+                    <input type="text" class="form-control" id="newAccountPhoneNumber" placeholder="Nhập số điện thoại" required>
+                </div>
+                <div class="form-group">
+                    <label for="accountType">Loại tài khoản</label>
+                    <select class="form-control" id="accountType" required>
+                        <option value="">Chọn loại tài khoản</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="button" id="submitNewAccount" class="btn btn-primary">Thêm tài khoản</button>
+                <button type="button" onclick="hideAddAccountForm()" class="btn btn-secondary">Hủy</button>
+            </form>
+        </div>
+
+        <!-- Form sửa tài khoản -->
+        <div id="editAccountForm" class="container mt-4" style="display: none;">
+            <h3>Sửa Tài Khoản</h3>
+            <form>
+                <input type="hidden" id="editAccountId">
+                <div class="form-group">
+                    <label for="editAccountUsername">Tên người dùng</label>
+                    <input type="text" class="form-control" id="editAccountUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="editAccountEmail">Email</label>
+                    <input type="email" class="form-control" id="editAccountEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="editAccountPhoneNumber">Số điện thoại</label>
+                    <input type="text" class="form-control" id="editAccountPhoneNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="editAccountType">Loại tài khoản</label>
+                    <select class="form-control" id="editAccountType" required>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="button" id="submitEditAccount" class="btn btn-primary">Cập nhật tài khoản</button>
+                <button type="button" onclick="hideEditAccountForm()" class="btn btn-secondary">Hủy</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Đăng xuất
+        document.getElementById('logoutButton').addEventListener('click', function() {
+            window.location.href = 'login.html';
+        });
+
+        // Hàm fetch API để lấy danh sách tài khoản từ database
+        function fetchAccounts() {
+            fetch('http://localhost/CuaHangDT/api/nguoiDung/getAccount.php') // Địa chỉ API trả về danh sách tài khoản
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const accountTable = document.getElementById('accountTable');
+                    accountTable.innerHTML = ''; // Xóa dữ liệu cũ
+
+                    // Duyệt qua mỗi tài khoản và thêm vào bảng
+                    data.forEach(account => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${account.id}</td>
+                            <td>${account.username}</td>
+                            <td>${account.email}</td>
+                            <td>${account.phone_number}</td>
+                            <td>${account.address || 'N/A'} - ${account.city || 'N/A'}</td>
+                            <td>
+                                <button class="btn btn-info" onclick="viewAccount(${account.id})">Xem chi tiết</button>
+                                <button class="btn btn-warning" onclick="editAccount(${account.id})">Sửa</button>
+                            </td>
+                        `;
+                        accountTable.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching accounts:', error);
+                });
+        }
+
+        // Hiển thị form thêm tài khoản
+        function showAddAccountForm() {
+            document.getElementById('addAccountForm').style.display = 'block';
+            document.getElementById('editAccountForm').style.display = 'none';
+        }
+
+        // Ẩn form thêm tài khoản
+        function hideAddAccountForm() {
+            document.getElementById('addAccountForm').style.display = 'none';
+        }
+
+        // Hiển thị form sửa tài khoản
+        function showEditAccountForm() {
+            document.getElementById('editAccountForm').style.display = 'block';
+            document.getElementById('addAccountForm').style.display = 'none';
+        }
+
+        // Ẩn form sửa tài khoản
+        function hideEditAccountForm() {
+            document.getElementById('editAccountForm').style.display = 'none';
+        }
+
+        // Xử lý khi nhấn nút thêm tài khoản mới
+        document.getElementById('submitNewAccount').addEventListener('click', function() {
+            const newAccount = {
+                username: document.getElementById('newAccountUsername').value,
+                email: document.getElementById('newAccountEmail').value,
+                password: document.getElementById('newAccountPassword').value,
+                phone_number: document.getElementById('newAccountPhoneNumber').value,
+                role: document.getElementById('accountType').value
+            };
+
+            fetch('http://localhost/CuaHangDT/api/nguoiDung/addAccount.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newAccount),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    hideAddAccountForm();
+                    fetchAccounts();
+                })
+                .catch(error => console.error('Error adding account:', error));
+        });
+
+        // Xử lý chức năng chỉnh sửa tài khoản
+        function editAccount(id) {
+            fetch(`http://localhost/CuaHangDT/api/nguoiDung/getAccountById.php?id=${id}`)
+                .then(response => response.json())
+                .then(account => {
+                    document.getElementById('editAccountId').value = account.id;
+                    document.getElementById('editAccountUsername').value = account.username;
+                    document.getElementById('editAccountEmail').value = account.email;
+                    document.getElementById('editAccountPhoneNumber').value = account.phone_number;
+                    document.getElementById('editAccountType').value = account.role;
+                    showEditAccountForm();
+                })
+                .catch(error => console.error('Error fetching account:', error));
+        }
+
+        // Xử lý khi nhấn nút cập nhật tài khoản
+        document.getElementById('submitEditAccount').addEventListener('click', function() {
+            const updatedAccount = {
+                id: document.getElementById('editAccountId').value,
+                username: document.getElementById('editAccountUsername').value,
+                email: document.getElementById('editAccountEmail').value,
+                phone_number: document.getElementById('editAccountPhoneNumber').value,
+                role: document.getElementById('editAccountType').value
+            };
+
+            fetch('http://localhost/CuaHangDT/api/nguoiDung/updateAccount.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedAccount),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    hideEditAccountForm();
+                    fetchAccounts();
+                })
+                .catch(error => console.error('Error updating account:', error));
+        });
+
+        // Tự động tải danh sách tài khoản khi trang được tải
+        window.onload = fetchAccounts;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Sản Phẩm</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="content">
+        <h2>Thêm Sản Phẩm</h2>
+        
+        <!-- Nhập tên sản phẩm -->
+        <input type="text" id="productName" placeholder="Tên sản phẩm">
+        
+        <!-- Nhập giá sản phẩm -->
+        <input type="number" id="productPrice" placeholder="Giá sản phẩm">
+
+        <!-- Nhập số lượng sản phẩm -->
+        <input type="number" id="productQuantity" placeholder="Số lượng">
+
+        <!-- Tải lên hình ảnh -->
+        <input type="file" id="productImage" accept="image/*">
+
+        <button onclick="saveProduct()">Lưu</button>
+        <button onclick="location.href='productad.html'">Hủy</button>
+    </div>
+
+    <script>
+        function saveProduct() {
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const quantity = document.getElementById('productQuantity').value;
+            const image = document.getElementById('productImage').files[0];
+
+            // Kiểm tra nếu thiếu thông tin
+            if (!name || !price || !quantity || !image) {
+                alert('Vui lòng nhập đủ thông tin!');
+                return;
+            }
+
+            alert(`Đã thêm sản phẩm: ${name}\nGiá: ${price} VND\nSố lượng: ${quantity}`);
+            location.href = 'productad.html';
+        }
+    </script>
+</body>
+</html>

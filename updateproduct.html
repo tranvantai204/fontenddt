@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sửa Sản Phẩm</title>
+    <link rel="stylesheet" href="stylee.css">
+    <style>
+        /* CSS Styles */
+        
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1,
+        h2,
+        h3 {
+            font-family: 'Roboto Mono', monospace;
+            color: #001f3f;
+        }
+        
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: #0056b3;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Sửa Sản Phẩm</h3>
+    <form id="editProductForm">
+        <div class="form-group">
+            <label for="editProductName">Tên sản phẩm:</label>
+            <input type="text" id="editProductName" required>
+        </div>
+        <div class="form-group">
+            <label for="editDescription">Mô tả:</label>
+            <textarea id="editDescription" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="editPrice">Giá:</label>
+            <input type="number" id="editPrice" required>
+        </div>
+        <div class="form-group">
+            <label for="editStock">Số lượng:</label>
+            <input type="number" id="editStock" required>
+        </div>
+        <div class="form-group">
+            <label for="editCategory">Danh mục:</label>
+            <input type="text" id="editCategory" required>
+        </div>
+        <div class="form-group">
+            <label for="editSupplier">Nhà cung cấp:</label>
+            <input type="text" id="editSupplier" required>
+        </div>
+        <div class="form-group">
+            <label for="editImage">Hình ảnh:</label>
+            <input type="file" id="editImage" accept="image/*">
+        </div>
+        <button type="submit" class="button">Lưu Thay Đổi</button>
+    </form>
+
+    <script>
+        document.getElementById('editProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Add your JavaScript code to handle form submission
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account List</title>
+    <link rel="stylesheet" href="stylee.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>IPOS CALL CENTER</h2>
+        <ul>
+            <li>Xử lý đơn đặt hàng</li>
+            <li>Tạo đơn hàng mới</li>
+            <li onclick="location.href='product.html'">Quản Lý Sản Phẩm</li>
+            <li class="active">Tài khoản
+                <ul>
+                    <li class="active">Danh sách tài khoản</li>
+                    <li onclick="location.href='add_account.html'">Thêm tài khoản</li>
+                    <li>Thông tin tài khoản</li>
+                </ul>
+            </li>
+            <li>Cấu hình hệ thống</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <h3>Dashboard / Tài khoản / Danh sách tài khoản</h3>
+            <div class="user-info">manager1@gmail.com</div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm tài khoản" id="searchInput">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tài khoản</th>
+                    <th>Thương hiệu</th>
+                    <th>Danh sách cửa hàng</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="accountTable">
+                <!-- Dữ liệu mẫu -->
+                <tr>
+                    <td>1</td>
+                    <td>employee5@gmail.com</td>
+                    <td>FOODBOOK</td>
+                    <td>FOODBOOK: Toàn hệ thống</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>
+                        <button class="detail-btn">Xem chi tiết</button>
+                        <button class="edit-btn" onclick="location.href='edit_account.html?email=employee5@gmail.com'">Sửa</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>acc1@gmail.com</td>
+                    <td>FOODBOOK</td>
+                    <td>FOODBOOK: Toàn hệ thống</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>
+                        <button class="detail-btn">Xem chi tiết</button>
+                        <button class="edit-btn" onclick="location.href='edit_account.html?email=acc1@gmail.com'">Sửa</button>
+                    </td>
+                </tr>
+                <!-- Thêm dữ liệu khác tại đây -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
