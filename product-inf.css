@@ -1,0 +1,83 @@
+/* StylesA.css */
+
+/* Thiết lập lại các thuộc tính mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* Bố cục chính */
+section {
+    padding: 20px;
+}
+
+/* Bố cục cho phần thông tin sản phẩm */
+.product-detail {
+    display: flex;
+    margin-bottom: 20px;
+    max-width: 60%;
+    margin: 0 auto;
+}
+
+/* Cột hình ảnh sản phẩm */
+.product-image {
+    flex: 1; /* Chiếm 50% chiều rộng */
+    padding-right: 20px; /* Khoảng cách bên phải */
+}
+
+.product-image img {
+    max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng cột */
+    height: auto; /* Giữ tỷ lệ hình ảnh */
+}
+
+/* Cột thông tin sản phẩm */
+.product-info {
+    flex: 1; /* Chiếm 50% chiều rộng */
+    padding-left: 20px; /* Khoảng cách bên trái */
+}
+
+/* Nút thêm vào giỏ hàng */
+.product-info button {
+    background-color: #28a745; /* Màu xanh */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.product-info button:hover {
+    background-color: #218838; /* Màu xanh đậm khi hover */
+}
+
+/* Mô tả chi tiết sản phẩm */
+.product-description {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc; /* Viền xung quanh mô tả */
+    border-radius: 5px; /* Bo góc cho viền */
+    background-color: #f9f9f9; /* Màu nền cho mô tả */
+}
+
+.thumbnail-images {
+    display: flex;
+    margin-top: 10px;
+}
+
+.thumbnail-images img {
+    width: 60px; /* Chiều rộng của thumbnail */
+    height: auto; /* Giữ tỷ lệ hình ảnh */
+    margin-right: 10px; /* Khoảng cách giữa các thumbnail */
+    cursor: pointer; /* Con trỏ khi hover */
+    border: 2px solid transparent; /* Viền mặc định */
+}
+
+.thumbnail-images img:hover {
+    border: 2px solid #28a745; /* Viền xanh khi hover */
+}
